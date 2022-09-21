@@ -3,6 +3,7 @@
 -- returns a message accordingly. 
 -- The function has to take the hourly consumption of an electrical device, the hours of daily use, and the maximum monthly consumption allowed.
 -- (Monthly usage = consumption (kW) * hours of daily use (h) * 30 days).
+{-# LANGUAGE MultiWayIf #-}
 
 monthlyConsumption :: Float -> Float -> Float -> String
 monthlyConsumption k h m
@@ -20,6 +21,7 @@ monthlyConsumption k h m
 
 -- In the previous function, return the excess/savings of consumption as part of the message.
 
+
 monthlyConsumption2 :: Float -> Float -> Float -> String
 monthlyConsumption2 k h m
     | monthlyUsage > m = "The monthly consumption is bigger than the maximum allowed! The excess: " ++ show(monthlyUsage - m) ++ "kWH"
@@ -34,12 +36,23 @@ monthlyConsumption2 k h m
 -- Write a function that showcases the advantages of using let expressions to split a big expression into smaller ones.
 -- Then, share it with other students in Canvas.
 
-fuelConsumption :: Float -> Float -> String
-fuelConsumption a b =
+fuelConsumption :: Float -> Float -> Float -> String
+fuelConsumption a b p =
     let aCar = a*0.1 + b*0.05
         bCar = a*0.07 + b*0.08
         cCar = a*0.06 + b*0.11
-    in  show(aCar + bCar + cCar) ++ " L fuel consumption on the trip"
+        aCarCost = aCar*p
+        bCarCost = bCar*p
+        cCarCost = cCar*p
+    in  if
+        | aCar > bCar -> if bCar < cCar then "B car have te lowest consumptin! " ++ show bCar ++ "L on the trip, and it will cost " ++ show bCarCost ++ " eur"
+                                        else "C car have the lowest consumtion! " ++ show cCar ++ "L on the trip, and it will cost " ++ show cCarCost ++ " eur"
+        | aCar < bCar -> if aCar < cCar then "A car have te lowest consumptin! " ++ show aCar ++ "L on the trip, and it will cost " ++ show aCarCost ++ " eur"
+                                        else "C car have the lowest consumtion! " ++ show cCar ++ "L on the trip, and it will cost " ++ show cCarCost ++ " eur"
+        | otherwise -> "Something is missing, please return later."
+        {-
+        show(aCar + bCar + cCar) ++ " L fuel consumption on the trip"
+    -}
 
 -- Question 4
 -- Write a function that takes in two numbers and returns their quotient such that it is not greater than 1.
@@ -61,10 +74,3 @@ asd a b = let sqProd = sqrt abProd
                 where abProd = a*b
                 in sqProd + sqQuo
                 where sqQuo = let abQuo = a/b in sqrt abQuo
-
-lowerConsumption     :: Double -> Double -> Double -> String
-lowerConsumption aCar bCar cCar
-    | aCar > bCar = if bCar < cCar then "B car have the lowest consumption." else "C car have the lowest consumption."
-    | aCar < bCar = if aCar < cCar then "A car have the lowest consumption." else "C car have the lowest consumption."
-    | otherwise = "A car have the lowest consumption."
-           
