@@ -21,6 +21,6 @@ func2 x = x^2*pi
 func3 x y = func2 x * y
 
 -- Question 5
--- Define a function that checks if the volume of a cylinder is greater than or equal to 42.
+-- Define a function that takes the height and radius of a cylinder and checks if the volume is greater than or equal to 42.
 
 func4 x y = if func3 x y >= 42 then "Greater than 42" else "Smaller than 42"
